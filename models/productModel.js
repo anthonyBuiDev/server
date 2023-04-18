@@ -70,7 +70,8 @@ const productSchema = new mongoose.Schema({
   brand: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'brand',
-    required: true
+    required: true,
+    default: '640c4a3543ff2ff2cce751ed'
   }
 });
 

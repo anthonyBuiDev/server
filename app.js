@@ -20,6 +20,7 @@ const reviewRouter = require('./routes/reviewRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 const brandRouter = require('./routes/brandRoutes');
 const orderRouter = require('./routes/orderRoutes');
+const paymentController = require('./controllers/paymentController');
 
 const app = express();
 
@@ -56,11 +57,11 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// app.post(
-//   '/webhook-checkout',
-//   bodyParser.raw({ type: 'application/json' }),
-//   bookingController.webhookCheckout
-// );
+app.post(
+  '/webhook-checkout',
+  bodyParser.raw({ type: 'application/json' }),
+  paymentController.webhookCheckout
+);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
@@ -101,10 +102,11 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1', productRouter);
-app.use('/api/v1', userRouter);
-app.use('/api/v1', reviewRouter);
+
 app.use('/api/v1', categoryRouter);
 app.use('/api/v1', brandRouter);
+app.use('/api/v1', userRouter);
+app.use('/api/v1', reviewRouter);
 app.use('/api/v1', orderRouter);
 
 app.all('*', (req, res, next) => {
